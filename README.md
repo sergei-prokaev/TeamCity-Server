@@ -30,26 +30,29 @@ Add the following variables to the env file.
 VIRTUAL_HOST_LIST=yoururlhere.com
 
 # HTTPS
+HTTPS_ENABLED=true
 LETSENCRYPT_HOST_LIST=yoururlhere.com
-LETSENCRYPT_EMAIL=yoururlhere.com
+LETSENCRYPT_EMAIL=you@yoururlhere.com
 
-# TEAMCITY (Any writable path on the host)
-TEAMCITY_DIR=/volumes/teamcity/logs
+# TEAMCITY
+TEAMCITY_DIR=/volumes/teamcity
 ```
 
-### 3. Set permissions for the Team City volume path
+### 3. Copy the docker-compose file to the root dir
+
+### 4. Set permissions for the Team City volume path
 
 ```shell
 chmod -R 777 /volumes/teamcity
 ```
 
-### 4. Bring up the services
+### 5. Bring up the services
 
 ```
 docker-compose up -d
 ```
 
-### 5. Initial Superuser authentication
+### 6. Initial Superuser authentication
 
 Access the Team City UI at the given URL above (yoururlhere.com)
 
