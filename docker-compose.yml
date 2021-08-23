@@ -14,6 +14,7 @@ services:
       - '${TEAMCITY_DIR}/datadir:/data/teamcity_server/datadir'
     ports:
       - "8111"
+    restart: always
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -25,6 +26,7 @@ services:
       - "/usr/share/nginx/html"
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
       - "${TEAMCITY_DIR}/certs:/etc/nginx/certs:ro"
+    restart: always
 
   letsencrypt-nginx-proxy-companion:
     image: jrcs/letsencrypt-nginx-proxy-companion
