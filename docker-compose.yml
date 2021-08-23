@@ -8,6 +8,7 @@ services:
       VIRTUAL_HOST: ${VIRTUAL_HOST_LIST}
       LETSENCRYPT_HOST: ${LETSENCRYPT_HOST_LIST}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+      TEAMCITY_HTTPS_PROXY_ENABLED: ${HTTPS_ENABLED}
     volumes:
       - '${TEAMCITY_DIR}/logs:/opt/teamcity/logs'
       - '${TEAMCITY_DIR}/datadir:/data/teamcity_server/datadir'
