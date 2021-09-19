@@ -57,7 +57,7 @@ docker-compose up -d
 Access the Team City UI at the given URL above (yoururlhere.com)
 
 ```shell
-tail -f /volumes/teamcity/logs/teamcity-server.log
+tail -f /volumes/teamcity/logs/logs/teamcity-server.log
 ```
 
 Look out for output like this, the token is the one to use for initial authentication.
