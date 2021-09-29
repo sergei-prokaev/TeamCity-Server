@@ -1,4 +1,4 @@
-version: '2'
+version: '3.1'
 
 services:
 
@@ -10,11 +10,27 @@ services:
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
       TEAMCITY_HTTPS_PROXY_ENABLED: ${HTTPS_ENABLED}
     volumes:
-      - '${TEAMCITY_DIR}/logs:/opt/teamcity/logs'
-      - '${TEAMCITY_DIR}/datadir:/data/teamcity_server/datadir'
+      - './data_dir/logs:/opt/teamcity/logs'
+      - './data_dir/datadir:/data/teamcity_server/datadir'
     ports:
       - "8111"
     restart: always
+
+  teamcity-agent-1:
+    image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
+    privileged: true
+    volumes:
+      - ./agents/agent-1/conf:/data/teamcity_agent/conf
+    environment:
+      - DOCKER_IN_DOCKER=start
+
+  teamcity-agent-2:
+    image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
+    privileged: true
+    volumes:
+      - ./agents/agent-2/conf:/data/teamcity_agent/conf
+    environment:
+      - DOCKER_IN_DOCKER=start
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -25,13 +41,24 @@ services:
       - "/etc/nginx/vhost.d"
       - "/usr/share/nginx/html"
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
-      - "${TEAMCITY_DIR}/certs:/etc/nginx/certs:ro"
+      - "./data_dir/certs:/etc/nginx/certs:ro"
     restart: always
 
   letsencrypt-nginx-proxy-companion:
     image: jrcs/letsencrypt-nginx-proxy-companion
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "${TEAMCITY_DIR}/certs:/etc/nginx/certs:rw"
-    volumes_from:
-      - "nginx-proxy"
+      - "./data_dir/certs:/etc/nginx/certs:rw"
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - PG_DATA=/var/lib/postgresql/data
+    volumes:
+      - ./buildserver_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
