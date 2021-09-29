@@ -10,8 +10,8 @@ services:
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
       TEAMCITY_HTTPS_PROXY_ENABLED: ${HTTPS_ENABLED}
     volumes:
-      - './data_dir/logs:/opt/teamcity/logs'
-      - './data_dir/datadir:/data/teamcity_server/datadir'
+      - ./data_dir/logs:/opt/teamcity/logs
+      - ./data_dir/datadir:/data/teamcity_server/datadir
     ports:
       - "8111"
     restart: always
@@ -38,17 +38,17 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - "/etc/nginx/vhost.d"
-      - "/usr/share/nginx/html"
-      - "/var/run/docker.sock:/tmp/docker.sock:ro"
-      - "./data_dir/certs:/etc/nginx/certs:ro"
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./data_dir/certs:/etc/nginx/certs:ro
     restart: always
 
   letsencrypt-nginx-proxy-companion:
     image: jrcs/letsencrypt-nginx-proxy-companion
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./data_dir/certs:/etc/nginx/certs:rw"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data_dir/certs:/etc/nginx/certs:rw
 
   db:
     image: postgres:latest
