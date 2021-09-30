@@ -52,7 +52,12 @@ chmod -R 777 /volumes/teamcity
 docker-compose up -d
 ```
 
-### 6. Initial Superuser authentication
+### 6. Connecting to the database
+
+- Use the credentials defined in the .env file.
+- The host is the container_name:port (e.g. root_db_1:5432)
+
+### 7. Initial Superuser authentication
 
 Access the Team City UI at the given URL above (yoururlhere.com)
 
