@@ -38,26 +38,28 @@ LETSENCRYPT_EMAIL=you@yoururlhere.com
 TEAMCITY_DIR=/volumes/teamcity
 ```
 
-### 3. Copy the docker-compose file to the root dir
+### 3. Clone this repo to the root of the server
 
-### 4. Set permissions for the Team City volume path
+### 4. Set the URL of the TC Server in the buildAgent.properties files
+
+### 5. Set permissions for the Team City volume path
 
 ```shell
 chmod -R 777 /volumes/teamcity
 ```
 
-### 5. Bring up the services
+### 6. Bring up the services
 
 ```
 docker-compose up -d
 ```
 
-### 6. Connecting to the database
+### 7. Connecting to the database
 
 - Use the credentials defined in the .env file.
 - The host is the container_name:port (e.g. root_db_1:5432)
 
-### 7. Initial Superuser authentication
+### 8. Initial Superuser authentication
 
 Access the Team City UI at the given URL above (yoururlhere.com)
 
