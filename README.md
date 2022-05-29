@@ -1,65 +1,55 @@
-# TeamCity-Server
+# Team City Server
 
-Dockerized TeamCity with SSL support using NGINX and Let's Encrypt
+Dockerised TeamCity with SSL
 
 ---
 
-# Requirements
+# Server Requirements
 
-Docker and docker-compose:
-
-* https://docs.docker.com/engine/installation/
-* https://docs.docker.com/compose/install/
+* Debian-based VM
+* URL pointing at the VM
+* Docker with Compose plugin: https://docs.docker.com/engine/install/ubuntu/
+* Git: `apt install git`
 
 ---
 
 # Usage
 
-### 1. Set up a VM with a URL pointing at it.
+### 1. Clone this repo to the root of the server
 
 ```shell
-e.g. yoururlhere.com
+git clone https://github.com/edjchapman/TeamCity-Server.git
+cd TeamCity-Server
 ```
 
 ### 2. Set up the environment variables
 
-Add the following variables to the env file.
-
 ```shell
-# DNS
-VIRTUAL_HOST_LIST=yoururlhere.com
-
-# HTTPS
-HTTPS_ENABLED=true
-LETSENCRYPT_HOST_LIST=yoururlhere.com
-LETSENCRYPT_EMAIL=you@yoururlhere.com
-
-# TEAMCITY
-TEAMCITY_DIR=/volumes/teamcity
+# Update variables
+cp .env.example .env
 ```
 
-### 3. Clone this repo to the root of the server
+### 3. Set the URL of the TC Server in the buildAgent.properties files
 
-### 4. Set the URL of the TC Server in the buildAgent.properties files
-
-### 5. Set permissions for the Team City volume path
+### 4. Set permissions for the Team City volume path
 
 ```shell
+mkdir -p /volumes/teamcity
 chmod -R 777 /volumes/teamcity
 ```
 
-### 6. Bring up the services
+### 5. Bring up the services
 
 ```
 docker-compose up -d
 ```
 
-### 7. Connecting to the database
+### 6. Connecting to the database
 
 - Use the credentials defined in the .env file.
 - The host is the container_name:port (e.g. root_db_1:5432)
 
-### 8. Initial Superuser authentication
+### 7. Initial Superuser authentication
 
 Access the Team City UI at the given URL above (yoururlhere.com)
 
