@@ -1,7 +1,4 @@
-version: '2'
-
 services:
-
   teamcity-server:
     image: jetbrains/teamcity-server
     environment:
@@ -13,7 +10,7 @@ services:
       - ./volumes/teamcity/logs:/opt/teamcity/logs
       - ./volumes/teamcity/datadir:/data/teamcity_server/datadir
     ports:
-      - "8111"
+      - "8111:8111"
     restart: always
 
   teamcity-agent-1:
@@ -21,16 +18,9 @@ services:
     privileged: true
     volumes:
       - ./agents/agent-1/conf:/data/teamcity_agent/conf
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - DOCKER_IN_DOCKER=start
-
-  # teamcity-agent-2:
-  #   image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
-  #   privileged: true
-  #   volumes:
-  #     - ./agents/agent-2/conf:/data/teamcity_agent/conf
-  #   environment:
-  #     - DOCKER_IN_DOCKER=start
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -50,16 +40,16 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./volumes/teamcity/certs:/etc/nginx/certs:rw
     volumes_from:
-      - "nginx-proxy"
+      - nginx-proxy
 
   db:
     image: postgres:latest
     restart: always
     environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - PG_DATA=/var/lib/postgresql/data
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PG_DATA: /var/lib/postgresql/data
     volumes:
       - ./volumes/teamcity/pgdata:/var/lib/postgresql/data
     ports:
