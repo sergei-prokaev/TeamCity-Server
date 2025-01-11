@@ -24,14 +24,6 @@ services:
     environment:
       - DOCKER_IN_DOCKER=start
 
-  # teamcity-agent-2:
-  #   image: jetbrains/teamcity-agent:${TEAMCITY_VERSION}-linux-sudo
-  #   privileged: true
-  #   volumes:
-  #     - ./agents/agent-2/conf:/data/teamcity_agent/conf
-  #   environment:
-  #     - DOCKER_IN_DOCKER=start
-
   nginx-proxy:
     image: jwilder/nginx-proxy
     ports:
