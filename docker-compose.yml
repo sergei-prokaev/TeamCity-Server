@@ -21,8 +21,11 @@ services:
     volumes:
       - ./agents/agent-1/conf:/data/teamcity_agent/conf
       - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/buildagent/work:/opt/buildagent/work
+      - /opt/buildagent/temp:/opt/buildagent/temp
     environment:
       - DOCKER_IN_DOCKER=start
+
 
   nginx-proxy:
     image: jwilder/nginx-proxy
